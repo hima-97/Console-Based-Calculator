@@ -75,7 +75,6 @@ namespace consoleBasedCalculator
                     {
                         currentOperandInExpression = "(" + currentOperandInExpression + ")^2";
                         myOperand = Convert.ToString(Math.Pow(Convert.ToDouble(myOperand), 2));
-                        //Console.WriteLine("Current operand: " + currentOperandInExpression + " = " + myOperand);
                         myOperand = operationWithinOperation(myOperand);
                         break;
                     }
@@ -482,6 +481,198 @@ namespace consoleBasedCalculator
             }
         }
 
+        // Function to find square of a number:
+        public static void findSquare()
+        {
+            // Getting operand from user:
+            string operand = getOperandsFromUser();
+            currentOperandInExpression = operand;
+            operand = operationWithinOperation(currentOperandInExpression);
+
+            // Calculating and displaying expression with its result:
+            Console.Clear();
+            Console.WriteLine("Square of " + currentOperandInExpression + " is:");
+            string myResult = Convert.ToString(Math.Pow(Convert.ToDouble(operand), 2));
+            currentOperandInExpression = "(" + currentOperandInExpression + ")^2";
+            currentExpression = currentOperandInExpression + " = " + myResult;
+            Console.WriteLine("\n" + currentExpression);
+            
+            // Adding current expression to history list:
+            history.Add(currentExpression);
+
+            // Variable for user selection after square is found:
+            int selection = -1;
+
+            // While loop that executes until user selects a valid option:
+            while (selection < 1 || selection > 3)
+            {
+                // Displaying possible options after square is found:
+                Console.WriteLine("\nSelect an option: 1. Find square of another number | 2. Main menu | 3. Exit");
+
+                // Getting user selection:
+                selection = Convert.ToInt32(Console.ReadLine());
+
+                // Switch statement to perform user selection:
+                switch (selection)
+                {
+                    // Another square:
+                    case 1:
+                        {
+                            Console.Clear();
+                            findSquare();
+                            break;
+                        }
+                    // Main menu:
+                    case 2:
+                        {
+                            Console.Clear();
+                            displayOperationsMenu();
+                            break;
+                        }
+                    // Exit:
+                    case 3:
+                        {
+                            Environment.Exit(0);
+                            break;
+                        }
+                    // i.e. Else:
+                    default:
+                        {
+                            Console.WriteLine("Wrong action, try again!");
+                            break;
+                        }
+                }
+            }
+        }
+
+        // Function to find square root of a number:
+        public static void findSquareRoot()
+        {
+            // Getting operand from user:
+            string operand = getOperandsFromUser();
+            currentOperandInExpression = operand;
+            operand = operationWithinOperation(currentOperandInExpression);
+
+            // Calculating and displaying expression with its result:
+            Console.Clear();
+            Console.WriteLine("Square root of " + currentOperandInExpression + " is:");
+            string myResult = Convert.ToString(Math.Sqrt(Convert.ToDouble(operand)));
+            currentOperandInExpression = "sqrt(" + currentOperandInExpression + ")";
+            currentExpression = currentOperandInExpression + " = " + myResult;
+            Console.WriteLine("\n" + currentExpression);
+
+            // Adding current expression to history list:
+            history.Add(currentExpression);
+
+            // Variable for user selection after square root is found:
+            int selection = -1;
+
+            // While loop that executes until user selects a valid option:
+            while (selection < 1 || selection > 3)
+            {
+                // Displaying possible options after square root is found:
+                Console.WriteLine("\nSelect an option: 1. Find square root of another number | 2. Main menu | 3. Exit");
+
+                // Getting user selection:
+                selection = Convert.ToInt32(Console.ReadLine());
+
+                // Switch statement to perform user selection:
+                switch (selection)
+                {
+                    // Another square root:
+                    case 1:
+                        {
+                            Console.Clear();
+                            findSquareRoot();
+                            break;
+                        }
+                    // Main menu:
+                    case 2:
+                        {
+                            Console.Clear();
+                            displayOperationsMenu();
+                            break;
+                        }
+                    // Exit:
+                    case 3:
+                        {
+                            Environment.Exit(0);
+                            break;
+                        }
+                    // i.e. Else:
+                    default:
+                        {
+                            Console.WriteLine("Wrong action, try again!");
+                            break;
+                        }
+                }
+            }
+        }
+
+        // Function to find inverse of a number:
+        public static void findInverse()
+        {
+            // Getting operand from user:
+            string operand = getOperandsFromUser();
+            currentOperandInExpression = operand;
+            operand = operationWithinOperation(currentOperandInExpression);
+
+            // Calculating and displaying expression with its result:
+            Console.Clear();
+            Console.WriteLine("Inverse of " + currentOperandInExpression + " is:");
+            string myResult = Convert.ToString(1 / (Convert.ToDouble(operand)));
+            currentOperandInExpression = "1/(" + currentOperandInExpression + ")";
+            currentExpression = currentOperandInExpression + " = " + myResult;
+            Console.WriteLine("\n" + currentExpression);
+
+            // Adding current expression to history list:
+            history.Add(currentExpression);
+
+            // Variable for user selection after inverse is found:
+            int selection = -1;
+
+            // While loop that executes until user selects a valid option:
+            while (selection < 1 || selection > 3)
+            {
+                // Displaying possible options after inverse is found:
+                Console.WriteLine("\nSelect an option: 1. Find square of another number | 2. Main menu | 3. Exit");
+
+                // Getting user selection:
+                selection = Convert.ToInt32(Console.ReadLine());
+
+                // Switch statement to perform user selection:
+                switch (selection)
+                {
+                    // Another inverse:
+                    case 1:
+                        {
+                            Console.Clear();
+                            findInverse();
+                            break;
+                        }
+                    // Main menu:
+                    case 2:
+                        {
+                            Console.Clear();
+                            displayOperationsMenu();
+                            break;
+                        }
+                    // Exit:
+                    case 3:
+                        {
+                            Environment.Exit(0);
+                            break;
+                        }
+                    // i.e. Else:
+                    default:
+                        {
+                            Console.WriteLine("Wrong action, try again!");
+                            break;
+                        }
+                }
+            }
+        }
+
         // Function to display history:
         public static void displayHistory()
         {
@@ -497,6 +688,43 @@ namespace consoleBasedCalculator
                 for (int i = 0; i < history.Count; i++)
                 {
                     Console.WriteLine(history[i] + "\n");
+                }
+            }
+
+            // Variable for user selection after addition is done:
+            int selection = -1;
+
+            // While loop that executes until user selects a valid option:
+            while (selection < 1 || selection > 2)
+            {
+                // Displaying possible options after square is found:
+                Console.WriteLine("\nSelect an option: 1. Main menu | 2. Exit");
+
+                // Getting user selection:
+                selection = Convert.ToInt32(Console.ReadLine());
+
+                // Switch statement to perform user selection:
+                switch (selection)
+                {
+                    // Main menu:
+                    case 1:
+                        {
+                            Console.Clear();
+                            displayOperationsMenu();
+                            break;
+                        }
+                    // Exit:
+                    case 2:
+                        {
+                            Environment.Exit(0);
+                            break;
+                        }
+                    // i.e. Else:
+                    default:
+                        {
+                            Console.WriteLine("Wrong action, try again!");
+                            break;
+                        }
                 }
             }
         }
@@ -572,14 +800,14 @@ namespace consoleBasedCalculator
                 case 7:
                     {
                         Console.Clear();
-                        performDivision();
+                        findSquareRoot();
                         break;
                     }
                 // Inverse of a number:
                 case 8:
                     {
                         Console.Clear();
-                        performModulo();
+                        findInverse();
                         break;
                     }
                 // History:
