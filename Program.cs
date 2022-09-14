@@ -138,16 +138,25 @@ namespace consoleBasedCalculator
             currentExpression += currentOperandInExpression;
             Console.Clear();
 
-            // Calculating result:
-            string myResult = new DataTable().Compute(firstOperand + " + " + secondOperand, null).ToString();
-            currentExpression += " = " + myResult;
+            // If any of the operands is NaN, then throw an error message:
+            if (firstOperand == "NaN" || secondOperand == "NaN")
+            {
+                // Displaying error message:
+                Console.WriteLine("\n" + "Error! Addition cannot be performed:\n" + currentExpression);
+            }
+            else
+            {
+                // Calculating result:
+                string myResult = new DataTable().Compute(firstOperand + " + " + secondOperand, null).ToString();
+                currentExpression += " = " + myResult;
 
-            // Displaying current expression with result:
-            Console.WriteLine("\n" + "Addition:\n" + currentExpression);
+                // Displaying current expression with result:
+                Console.WriteLine("\n" + "Addition:\n" + currentExpression);
 
-            // Adding current expression to history list:
-            history.Add(currentExpression);
-
+                // Adding current expression to history list:
+                history.Add(currentExpression);
+            }
+            
             // Variable for user selection after addition is done:
             int selection = -1;
 
@@ -210,15 +219,24 @@ namespace consoleBasedCalculator
             currentExpression += currentOperandInExpression;
             Console.Clear();
 
-            // Calculating result:
-            string myResult = new DataTable().Compute(firstOperand + " - " + secondOperand, null).ToString();
-            currentExpression += " = " + myResult;
+            // If any of the operands is NaN, then throw an error message:
+            if (firstOperand == "NaN" || secondOperand == "NaN")
+            {
+                // Displaying error message:
+                Console.WriteLine("\n" + "Error! Subtraction cannot be performed:\n" + currentExpression);
+            }
+            else
+            {
+                // Calculating result:
+                string myResult = new DataTable().Compute(firstOperand + " - " + secondOperand, null).ToString();
+                currentExpression += " = " + myResult;
 
-            // Displaying current expression with result:
-            Console.WriteLine("\n" + "Subtraction:\n" + currentExpression);
+                // Displaying current expression with result:
+                Console.WriteLine("\n" + "Subtraction:\n" + currentExpression);
 
-            // Adding current expression to history list:
-            history.Add(currentExpression);
+                // Adding current expression to history list:
+                history.Add(currentExpression);
+            }
 
             // Variable for user selection after subtraction is done:
             int selection = -1;
@@ -282,15 +300,24 @@ namespace consoleBasedCalculator
             currentExpression += currentOperandInExpression;
             Console.Clear();
 
-            // Calculating result:
-            string myResult = new DataTable().Compute(firstOperand + " * " + secondOperand, null).ToString();
-            currentExpression += " = " + myResult;
+            // If any of the operands is NaN, then throw an error message:
+            if (firstOperand == "NaN" || secondOperand == "NaN")
+            {
+                // Displaying error message:
+                Console.WriteLine("\n" + "Error! Multiplication cannot be performed:\n" + currentExpression);
+            }
+            else
+            {
+                // Calculating result:
+                string myResult = new DataTable().Compute(firstOperand + " * " + secondOperand, null).ToString();
+                currentExpression += " = " + myResult;
 
-            // Displaying current expression with result:
-            Console.WriteLine("\n" + "Multiplication:\n" + currentExpression);
+                // Displaying current expression with result:
+                Console.WriteLine("\n" + "Multiplication:\n" + currentExpression);
 
-            // Adding current expression to history list:
-            history.Add(currentExpression);
+                // Adding current expression to history list:
+                history.Add(currentExpression);
+            }
 
             // Variable for user selection after multiplication is done:
             int selection = -1;
@@ -354,15 +381,24 @@ namespace consoleBasedCalculator
             currentExpression += currentOperandInExpression;
             Console.Clear();
 
-            // Calculating result:
-            string myResult = new DataTable().Compute(firstOperand + " / " + secondOperand, null).ToString();
-            currentExpression += " = " + myResult;
+            // If any of the operands is NaN, then throw an error message:
+            if (firstOperand == "NaN" || secondOperand == "NaN")
+            {
+                // Displaying error message:
+                Console.WriteLine("\n" + "Error! Division cannot be performed:\n" + currentExpression);
+            }
+            else
+            {
+                // Calculating result:
+                string myResult = new DataTable().Compute(firstOperand + " / " + secondOperand, null).ToString();
+                currentExpression += " = " + myResult;
 
-            // Displaying current expression with result:
-            Console.WriteLine("\n" + "Division:\n" + currentExpression);
+                // Displaying current expression with result:
+                Console.WriteLine("\n" + "Division:\n" + currentExpression);
 
-            // Adding current expression to history list:
-            history.Add(currentExpression);
+                // Adding current expression to history list:
+                history.Add(currentExpression);
+            }
 
             // Variable for user selection after division is done:
             int selection = -1;
