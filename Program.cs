@@ -26,6 +26,9 @@ namespace consoleBasedCalculator
         // Variable to track current expression to evaluate:
         public static string currentExpression = "";
 
+        // Variable to track result of an expression:
+        public static string myResult = "";
+
         // Boolean function to check if string input is a valid double value:
         public static bool isStringValidDouble(string myString)
         {
@@ -48,7 +51,7 @@ namespace consoleBasedCalculator
             // If operand is not a valid number, then try again:
             while (isStringValidDouble(myOperand) == false)
             {
-                Console.WriteLine("Not a valid operand!");
+                Console.WriteLine("Invalid operand!");
                 Console.WriteLine("\nEnter operand:");
                 myOperand = Convert.ToString(Console.ReadLine());
             }
@@ -60,7 +63,7 @@ namespace consoleBasedCalculator
         public static string operationWithinOperation(string myOperand)
         {
             // Displaying menu to perform an operation on single operand:
-            Console.WriteLine("\nSelect an option for current operand: " + currentOperandInExpression + " = " + myOperand + "\n" + 
+            Console.WriteLine("\nSELECT OPTION FOR CURRENT OPERAND: " + currentOperandInExpression + " = " + myOperand + "\n" + 
                                             "1. Square operand | " + "2. Square root of operand | " + 
                                             "3. Inverse of operand | " + "4. Negate operand | " + "5. Continue");
 
@@ -81,7 +84,7 @@ namespace consoleBasedCalculator
                 // Square root:
                 case 2:
                     {
-                        currentOperandInExpression = "sqrt(" + currentOperandInExpression + ")";
+                        currentOperandInExpression = "Sqrt(" + currentOperandInExpression + ")";
                         myOperand = Convert.ToString(Math.Sqrt(Convert.ToDouble(myOperand)));
                         myOperand = operationWithinOperation(myOperand);
                         break;
@@ -97,7 +100,7 @@ namespace consoleBasedCalculator
                 // Negate:
                 case 4:
                     {
-                        currentOperandInExpression = "negate(" + currentOperandInExpression + ")";
+                        currentOperandInExpression = "Negate(" + currentOperandInExpression + ")";
                         double oppositeNumber = Convert.ToDouble(myOperand);
                         oppositeNumber = oppositeNumber * (-1);
                         myOperand = Convert.ToString(oppositeNumber);
@@ -121,14 +124,15 @@ namespace consoleBasedCalculator
             return myOperand;
         }
 
-        // Function to perform addition:
-        public static void performAddition()
+        // Function to perform operation with two operands:
+        // (i.e. addition, subtraction, multiplication, division, or modulo)
+        public static void operationWithTwoOperands(string operationType, string myOperator)
         {
             // Getting first operand from user:
             string firstOperand = getOperandsFromUser();
             currentOperandInExpression = firstOperand;
             firstOperand = operationWithinOperation(currentOperandInExpression);
-            currentExpression = currentOperandInExpression + " + ";
+            currentExpression = currentOperandInExpression + " " + myOperator + " ";
             Console.Clear();
 
             // Getting second operand from user:
@@ -142,110 +146,29 @@ namespace consoleBasedCalculator
             if (firstOperand == "NaN" || secondOperand == "NaN")
             {
                 // Displaying error message:
-                Console.WriteLine("\n" + "Error! Addition cannot be performed:\n" + currentExpression);
+                Console.WriteLine("\n" + "ERROR! Invalid operand, " + operationType + " cannot be performed:\n" + currentExpression);
             }
             else
             {
-                // Calculating result:
-                string myResult = new DataTable().Compute(firstOperand + " + " + secondOperand, null).ToString();
+                // Calculating result based on operation type selected:
+                myResult = new DataTable().Compute(firstOperand + " " + myOperator + " " + secondOperand, null).ToString();
                 currentExpression += " = " + myResult;
 
                 // Displaying current expression with result:
-                Console.WriteLine("\n" + "Addition:\n" + currentExpression);
-
-                // Adding current expression to history list:
-                history.Add(currentExpression);
-            }
-            
-            // Variable for user selection after addition is done:
-            int selection = -1;
-
-            // While loop that executes until user selects a valid option:
-            while (selection < 1 || selection > 4)
-            {
-                // Displaying possible options after addition is done:
-                Console.WriteLine("\nSelect an option: 1. Do another addition | 2. Main menu | 3. Exit");
-
-                // Getting user selection:
-                selection = Convert.ToInt32(Console.ReadLine());
-
-                // Switch statement to perform user selection:
-                switch (selection)
-                {
-                    // Another addition:
-                    case 1:
-                        {
-                            Console.Clear();
-                            performAddition();
-                            break;
-                        }
-                    // Main menu:
-                    case 2:
-                        {
-                            Console.Clear();
-                            displayOperationsMenu();
-                            break;
-                        }
-                    // Exit:
-                    case 3:
-                        {
-                            Environment.Exit(0);
-                            break;
-                        }
-                    // i.e. Else:
-                    default:
-                        {
-                            Console.WriteLine("Wrong action, try again!");
-                            break;
-                        }
-                }
-            }           
-        }
-
-        // Function to perform subtraction:
-        public static void performSubtraction()
-        {
-            // Getting first operand from user:
-            string firstOperand = getOperandsFromUser();
-            currentOperandInExpression = firstOperand;
-            firstOperand = operationWithinOperation(currentOperandInExpression);
-            currentExpression = currentOperandInExpression + " - ";
-            Console.Clear();
-
-            // Getting second operand from user:
-            string secondOperand = getOperandsFromUser();
-            currentOperandInExpression = secondOperand;
-            secondOperand = operationWithinOperation(currentOperandInExpression);
-            currentExpression += currentOperandInExpression;
-            Console.Clear();
-
-            // If any of the operands is NaN, then throw an error message:
-            if (firstOperand == "NaN" || secondOperand == "NaN")
-            {
-                // Displaying error message:
-                Console.WriteLine("\n" + "Error! Subtraction cannot be performed:\n" + currentExpression);
-            }
-            else
-            {
-                // Calculating result:
-                string myResult = new DataTable().Compute(firstOperand + " - " + secondOperand, null).ToString();
-                currentExpression += " = " + myResult;
-
-                // Displaying current expression with result:
-                Console.WriteLine("\n" + "Subtraction:\n" + currentExpression);
+                Console.WriteLine("\n" + operationType + "\n" + currentExpression);
 
                 // Adding current expression to history list:
                 history.Add(currentExpression);
             }
 
-            // Variable for user selection after subtraction is done:
+            // Variable for user selection after operation is done:
             int selection = -1;
 
             // While loop that executes until user selects a valid option:
             while (selection < 1 || selection > 4)
             {
-                // Displaying possible options after subtraction is done:
-                Console.WriteLine("\nSelect an option: 1. Do another subtraction | 2. Main menu | 3. Exit");
+                // Displaying possible options after operation is done:
+                Console.WriteLine("\nSELECT OPTION: 1. Do another " + operationType + " | 2. Main menu | 3. Exit");
 
                 // Getting user selection:
                 selection = Convert.ToInt32(Console.ReadLine());
@@ -253,18 +176,18 @@ namespace consoleBasedCalculator
                 // Switch statement to perform user selection:
                 switch (selection)
                 {
-                    // Another Subtraction:
+                    // Repeat same operation type:
                     case 1:
                         {
                             Console.Clear();
-                            performSubtraction();
+                            operationWithTwoOperands(operationType, myOperator);
                             break;
                         }
                     // Main menu:
                     case 2:
                         {
                             Console.Clear();
-                            displayOperationsMenu();
+                            displayMainMenu();
                             break;
                         }
                     // Exit:
@@ -283,242 +206,9 @@ namespace consoleBasedCalculator
             }
         }
 
-        // Function to perform multiplication:
-        public static void performMultiplication()
-        {
-            // Getting first operand from user:
-            string firstOperand = getOperandsFromUser();
-            currentOperandInExpression = firstOperand;
-            firstOperand = operationWithinOperation(currentOperandInExpression);
-            currentExpression = currentOperandInExpression + " * ";
-            Console.Clear();
-
-            // Getting second operand from user:
-            string secondOperand = getOperandsFromUser();
-            currentOperandInExpression = secondOperand;
-            secondOperand = operationWithinOperation(currentOperandInExpression);
-            currentExpression += currentOperandInExpression;
-            Console.Clear();
-
-            // If any of the operands is NaN, then throw an error message:
-            if (firstOperand == "NaN" || secondOperand == "NaN")
-            {
-                // Displaying error message:
-                Console.WriteLine("\n" + "Error! Multiplication cannot be performed:\n" + currentExpression);
-            }
-            else
-            {
-                // Calculating result:
-                string myResult = new DataTable().Compute(firstOperand + " * " + secondOperand, null).ToString();
-                currentExpression += " = " + myResult;
-
-                // Displaying current expression with result:
-                Console.WriteLine("\n" + "Multiplication:\n" + currentExpression);
-
-                // Adding current expression to history list:
-                history.Add(currentExpression);
-            }
-
-            // Variable for user selection after multiplication is done:
-            int selection = -1;
-
-            // While loop that executes until user selects a valid option:
-            while (selection < 1 || selection > 4)
-            {
-                // Displaying possible options after multiplication is done:
-                Console.WriteLine("\nSelect an option: 1. Do another multiplication | 2. Main menu | 3. Exit");
-
-                // Getting user selection:
-                selection = Convert.ToInt32(Console.ReadLine());
-
-                // Switch statement to perform user selection:
-                switch (selection)
-                {
-                    // Another division:
-                    case 1:
-                        {
-                            Console.Clear();
-                            performMultiplication();
-                            break;
-                        }
-                    // Main menu:
-                    case 2:
-                        {
-                            Console.Clear();
-                            displayOperationsMenu();
-                            break;
-                        }
-                    // Exit:
-                    case 3:
-                        {
-                            Environment.Exit(0);
-                            break;
-                        }
-                    // i.e. Else:
-                    default:
-                        {
-                            Console.WriteLine("Wrong action, try again!");
-                            break;
-                        }
-                }
-            }
-        }
-
-        // Function to perform division:
-        public static void performDivision()
-        {
-            // Getting first operand from user:
-            string firstOperand = getOperandsFromUser();
-            currentOperandInExpression = firstOperand;
-            firstOperand = operationWithinOperation(currentOperandInExpression);
-            currentExpression = currentOperandInExpression + " / ";
-            Console.Clear();
-
-            // Getting second operand from user:
-            string secondOperand = getOperandsFromUser();
-            currentOperandInExpression = secondOperand;
-            secondOperand = operationWithinOperation(currentOperandInExpression);
-            currentExpression += currentOperandInExpression;
-            Console.Clear();
-
-            // If any of the operands is NaN, then throw an error message:
-            if (firstOperand == "NaN" || secondOperand == "NaN")
-            {
-                // Displaying error message:
-                Console.WriteLine("\n" + "Error! Division cannot be performed:\n" + currentExpression);
-            }
-            else
-            {
-                // Calculating result:
-                string myResult = new DataTable().Compute(firstOperand + " / " + secondOperand, null).ToString();
-                currentExpression += " = " + myResult;
-
-                // Displaying current expression with result:
-                Console.WriteLine("\n" + "Division:\n" + currentExpression);
-
-                // Adding current expression to history list:
-                history.Add(currentExpression);
-            }
-
-            // Variable for user selection after division is done:
-            int selection = -1;
-
-            // While loop that executes until user selects a valid option:
-            while (selection < 1 || selection > 4)
-            {
-                // Displaying possible options after division is done:
-                Console.WriteLine("\nSelect an option: 1. Do another division | 2. Main menu | 3. Exit");
-
-                // Getting user selection:
-                selection = Convert.ToInt32(Console.ReadLine());
-
-                // Switch statement to perform user selection:
-                switch (selection)
-                {
-                    // Another division:
-                    case 1:
-                        {
-                            Console.Clear();
-                            performDivision();
-                            break;
-                        }
-                    // Main menu:
-                    case 2:
-                        {
-                            Console.Clear();
-                            displayOperationsMenu();
-                            break;
-                        }
-                    // Exit:
-                    case 3:
-                        {
-                            Environment.Exit(0);
-                            break;
-                        }
-                    // i.e. Else:
-                    default:
-                        {
-                            Console.WriteLine("Wrong action, try again!");
-                            break;
-                        }
-                }
-            }
-        }
-
-        // Function to perform modulo:
-        public static void performModulo()
-        {
-            // Getting first operand from user:
-            string firstOperand = getOperandsFromUser();
-            currentOperandInExpression = firstOperand;
-            firstOperand = operationWithinOperation(currentOperandInExpression);
-            currentExpression = currentOperandInExpression + " % ";
-            Console.Clear();
-
-            // Getting second operand from user:
-            string secondOperand = getOperandsFromUser();
-            currentOperandInExpression = secondOperand;
-            secondOperand = operationWithinOperation(currentOperandInExpression);
-            currentExpression += currentOperandInExpression;
-            Console.Clear();
-
-            // Calculating result:
-            string myResult = new DataTable().Compute(firstOperand + " % " + secondOperand, null).ToString();
-            currentExpression += " = " + myResult;
-
-            // Displaying current expression with result:
-            Console.WriteLine("\n" + "Modulo:\n" + currentExpression);
-
-            // Adding current expression to history list:
-            history.Add(currentExpression);
-
-            // Variable for user selection after modulo is done:
-            int selection = -1;
-
-            // While loops that executes until user selects a valid option:
-            while (selection < 1 || selection > 4)
-            {
-                // Displaying possible options after modulo is done:
-                Console.WriteLine("\nSelect an option: 1. Do another modulo | 2. Main menu | 3. Exit");
-
-                // Getting user selection:
-                selection = Convert.ToInt32(Console.ReadLine());
-
-                // Switch statement to perform user selection:
-                switch (selection)
-                {
-                    // Another modulo:
-                    case 1:
-                        {
-                            Console.Clear();
-                            performModulo();
-                            break;
-                        }
-                    // Main menu:
-                    case 2:
-                        {
-                            Console.Clear();
-                            displayOperationsMenu();
-                            break;
-                        }
-                    // Exit:
-                    case 3:
-                        {
-                            Environment.Exit(0);
-                            break;
-                        }
-                    // i.e. Else:
-                    default:
-                        {
-                            Console.WriteLine("Wrong action, try again!");
-                            break;
-                        }
-                }
-            }
-        }
-
-        // Function to find square of a number:
-        public static void findSquare()
+        // Function to perform operation with one operand:
+        // (i.e. square, square root, or inverse)
+        public static void operationWithOneOperand(string operationType)
         {
             // Getting operand from user:
             string operand = getOperandsFromUser();
@@ -527,151 +217,47 @@ namespace consoleBasedCalculator
 
             // Calculating and displaying expression with its result:
             Console.Clear();
-            Console.WriteLine("Square of " + currentOperandInExpression + " is:");
-            string myResult = Convert.ToString(Math.Pow(Convert.ToDouble(operand), 2));
-            currentOperandInExpression = "(" + currentOperandInExpression + ")^2";
-            currentExpression = currentOperandInExpression + " = " + myResult;
-            Console.WriteLine("\n" + currentExpression);
-            
-            // Adding current expression to history list:
-            history.Add(currentExpression);
+            Console.WriteLine("The expression " + operationType + "(" + currentOperandInExpression + ") evaluates to:");
 
-            // Variable for user selection after square is found:
-            int selection = -1;
-
-            // While loop that executes until user selects a valid option:
-            while (selection < 1 || selection > 3)
+            // Performing calculations based on operation type selected:
+            if (operationType == "Square")
             {
-                // Displaying possible options after square is found:
-                Console.WriteLine("\nSelect an option: 1. Find square of another number | 2. Main menu | 3. Exit");
-
-                // Getting user selection:
-                selection = Convert.ToInt32(Console.ReadLine());
-
-                // Switch statement to perform user selection:
-                switch (selection)
-                {
-                    // Another square:
-                    case 1:
-                        {
-                            Console.Clear();
-                            findSquare();
-                            break;
-                        }
-                    // Main menu:
-                    case 2:
-                        {
-                            Console.Clear();
-                            displayOperationsMenu();
-                            break;
-                        }
-                    // Exit:
-                    case 3:
-                        {
-                            Environment.Exit(0);
-                            break;
-                        }
-                    // i.e. Else:
-                    default:
-                        {
-                            Console.WriteLine("Wrong action, try again!");
-                            break;
-                        }
-                }
+                myResult = Convert.ToString(Math.Pow(Convert.ToDouble(operand), 2));
+                currentOperandInExpression = "(" + currentOperandInExpression + ")^2";
             }
-        }
-
-        // Function to find square root of a number:
-        public static void findSquareRoot()
-        {
-            // Getting operand from user:
-            string operand = getOperandsFromUser();
-            currentOperandInExpression = operand;
-            operand = operationWithinOperation(currentOperandInExpression);
-
-            // Calculating and displaying expression with its result:
-            Console.Clear();
-            Console.WriteLine("Square root of " + currentOperandInExpression + " is:");
-            string myResult = Convert.ToString(Math.Sqrt(Convert.ToDouble(operand)));
-            currentOperandInExpression = "sqrt(" + currentOperandInExpression + ")";
-            currentExpression = currentOperandInExpression + " = " + myResult;
-            Console.WriteLine("\n" + currentExpression);
-
-            // Adding current expression to history list:
-            history.Add(currentExpression);
-
-            // Variable for user selection after square root is found:
-            int selection = -1;
-
-            // While loop that executes until user selects a valid option:
-            while (selection < 1 || selection > 3)
+            else if (operationType == "Sqrt")
             {
-                // Displaying possible options after square root is found:
-                Console.WriteLine("\nSelect an option: 1. Find square root of another number | 2. Main menu | 3. Exit");
-
-                // Getting user selection:
-                selection = Convert.ToInt32(Console.ReadLine());
-
-                // Switch statement to perform user selection:
-                switch (selection)
-                {
-                    // Another square root:
-                    case 1:
-                        {
-                            Console.Clear();
-                            findSquareRoot();
-                            break;
-                        }
-                    // Main menu:
-                    case 2:
-                        {
-                            Console.Clear();
-                            displayOperationsMenu();
-                            break;
-                        }
-                    // Exit:
-                    case 3:
-                        {
-                            Environment.Exit(0);
-                            break;
-                        }
-                    // i.e. Else:
-                    default:
-                        {
-                            Console.WriteLine("Wrong action, try again!");
-                            break;
-                        }
-                }
+                myResult = Convert.ToString(Math.Sqrt(Convert.ToDouble(operand)));
+                currentOperandInExpression = "Sqrt(" + currentOperandInExpression + ")";
             }
-        }
+            else if (operationType == "Inverse")
+            {
+                myResult = Convert.ToString(1 / (Convert.ToDouble(operand)));
+                currentOperandInExpression = "1/(" + currentOperandInExpression + ")";
+            }
+            else if (operationType == "Negate")
+            {
+                double oppositeNumber = Convert.ToDouble(operand);
+                oppositeNumber = oppositeNumber * (-1);
+                operand = Convert.ToString(oppositeNumber);
+                myResult = operand;
+                currentOperandInExpression = "Negate(" + currentOperandInExpression + ")";
+            }
 
-        // Function to find inverse of a number:
-        public static void findInverse()
-        {
-            // Getting operand from user:
-            string operand = getOperandsFromUser();
-            currentOperandInExpression = operand;
-            operand = operationWithinOperation(currentOperandInExpression);
-
-            // Calculating and displaying expression with its result:
-            Console.Clear();
-            Console.WriteLine("Inverse of " + currentOperandInExpression + " is:");
-            string myResult = Convert.ToString(1 / (Convert.ToDouble(operand)));
-            currentOperandInExpression = "1/(" + currentOperandInExpression + ")";
             currentExpression = currentOperandInExpression + " = " + myResult;
             Console.WriteLine("\n" + currentExpression);
 
             // Adding current expression to history list:
             history.Add(currentExpression);
 
-            // Variable for user selection after inverse is found:
+            // Variable for user selection after operation is done:
             int selection = -1;
 
             // While loop that executes until user selects a valid option:
             while (selection < 1 || selection > 3)
             {
-                // Displaying possible options after inverse is found:
-                Console.WriteLine("\nSelect an option: 1. Find square of another number | 2. Main menu | 3. Exit");
+                // Displaying possible options after operation is done:
+                Console.WriteLine("\nSELECT OPTION: 1. " + operationType + " another number | 2. Main menu | 3. Exit");
 
                 // Getting user selection:
                 selection = Convert.ToInt32(Console.ReadLine());
@@ -679,18 +265,18 @@ namespace consoleBasedCalculator
                 // Switch statement to perform user selection:
                 switch (selection)
                 {
-                    // Another inverse:
+                    // Repeat same operation type:
                     case 1:
                         {
                             Console.Clear();
-                            findInverse();
+                            operationWithOneOperand(operationType);
                             break;
                         }
                     // Main menu:
                     case 2:
                         {
                             Console.Clear();
-                            displayOperationsMenu();
+                            displayMainMenu();
                             break;
                         }
                     // Exit:
@@ -746,7 +332,7 @@ namespace consoleBasedCalculator
                     case 1:
                         {
                             Console.Clear();
-                            displayOperationsMenu();
+                            displayMainMenu();
                             break;
                         }
                     // Exit:
@@ -766,9 +352,9 @@ namespace consoleBasedCalculator
         }
 
         // Function to display operations menu:
-        public static void displayOperationsMenu()
+        public static void displayMainMenu()
         {
-            Console.WriteLine("\n\nCONSOLE-BASED CALCULATOR");
+            Console.WriteLine("CONSOLE-BASED CALCULATOR");
             Console.WriteLine("-------------------------\n\n");
 
             // Displaying initial menu with different operations:
@@ -777,10 +363,11 @@ namespace consoleBasedCalculator
             Console.WriteLine("3) Multiplication");
             Console.WriteLine("4) Division");
             Console.WriteLine("5) Modulo");
-            Console.WriteLine("6) Square of a number");
-            Console.WriteLine("7) Square root of a number");
-            Console.WriteLine("8) Inverse of a number");
-            Console.WriteLine("9) History");
+            Console.WriteLine("6) Square a number");
+            Console.WriteLine("7) Square root a number");
+            Console.WriteLine("8) Inverse a number");
+            Console.WriteLine("9) Negate a number");
+            Console.WriteLine("10) History");
             Console.WriteLine("0) Exit\n");
 
             // Getting user input to select an operation:
@@ -794,60 +381,67 @@ namespace consoleBasedCalculator
                 case 1:
                     {
                         Console.Clear();
-                        performAddition();
+                        operationWithTwoOperands("Addition", "+");
                         break;
                     }
                 // Subtraction:
                 case 2:
                     {
                         Console.Clear();
-                        performSubtraction();
+                        operationWithTwoOperands("Subtraction", "-");
                         break;
                     }
                 // Multiplication:
                 case 3:
                     {
                         Console.Clear();
-                        performMultiplication();
+                        operationWithTwoOperands("Multiplication", "*");
                         break;
                     }
                 // Division:
                 case 4:
                     {
                         Console.Clear();
-                        performDivision();
+                        operationWithTwoOperands("Division", "/");
                         break;
                     }
                 // Modulo:
                 case 5:
                     {
                         Console.Clear();
-                        performModulo();
+                        operationWithTwoOperands("Modulo", "%");
                         break;
                     }
                 // Square of a number:
                 case 6:
                     {
                         Console.Clear();
-                        findSquare();
+                        operationWithOneOperand("Square");
                         break;
                     }
                 // Square root of a number:
                 case 7:
                     {
                         Console.Clear();
-                        findSquareRoot();
+                        operationWithOneOperand("Sqrt");
                         break;
                     }
                 // Inverse of a number:
                 case 8:
                     {
                         Console.Clear();
-                        findInverse();
+                        operationWithOneOperand("Inverse");
+                        break;
+                    }
+                // Negate a number:
+                case 9:
+                    {
+                        Console.Clear();
+                        operationWithOneOperand("Negate");
                         break;
                     }
                 // History:
-                case 9:
+                case 10:
                     {
                         displayHistory();
                         break;
@@ -862,7 +456,7 @@ namespace consoleBasedCalculator
                 default:
                     {
                         Console.WriteLine("Wrong action, try again!");
-                        displayOperationsMenu();
+                        displayMainMenu();
                         break;
                     }
             }
@@ -871,7 +465,7 @@ namespace consoleBasedCalculator
         // Main (i.e. driver) function:
         static void Main(string[] args)
         {
-            displayOperationsMenu();
+            displayMainMenu();
         }
     }
 }
