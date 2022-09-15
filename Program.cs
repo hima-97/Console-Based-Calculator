@@ -35,6 +35,21 @@ namespace consoleBasedCalculator
         // Variable to track result of an expression:
         public static string myResult = "";
 
+        // Boolean function to check if input string contains only digits:
+        public static bool isStringDigitsOnly(string myString)
+        {
+            foreach (char c in myString)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            if (myString == "" || myString == null)
+                return false;
+
+            return true;
+        }
+
         // Boolean function to check if string input is a valid double value:
         public static bool isStringValidDouble(string myString)
         {
@@ -50,31 +65,22 @@ namespace consoleBasedCalculator
         // Function to get operand from the user:
         public static string getOperandsFromUser()
         {
-            // Getting user input for operand:
-            if (firstOperand == "")
-            {
-                Console.WriteLine("ENTER FIRST OPERAND:\n");
-            }
-            else
-            {
-                Console.WriteLine("ENTER SECOND OPERAND:\n");
-            }
+            string myOperand = "";
 
-            string myOperand = Convert.ToString(Console.ReadLine());
-
-            // If operand is not a valid number, then try again:
+            // Until operand is not a valid number, keep trying again:
             while (isStringValidDouble(myOperand) == false)
             {
-                Console.WriteLine("\nINVALID OPERAND!\n");
+                Console.Clear();
 
                 // Getting user input for operand:
                 if (firstOperand == "")
                 {
-                    Console.WriteLine("ENTER FIRST OPERAND:");
+                    Console.WriteLine("ENTER FIRST OPERAND:\n");
                 }
                 else
                 {
-                    Console.WriteLine("ENTER SECOND OPERAND:");
+                    Console.WriteLine("CURRENT EXPRESSION:       " + currentExpression + "[second operand]\n\n");
+                    Console.WriteLine("ENTER SECOND OPERAND:\n");
                 }
 
                 myOperand = Convert.ToString(Console.ReadLine());
@@ -89,9 +95,9 @@ namespace consoleBasedCalculator
             Console.Clear();
 
             // Displaying menu to perform an operation on single operand:
-            Console.WriteLine("SELECT OPTION FOR CURRENT OPERAND: " + currentOperandInExpression + " = " + myOperand + "\n" + 
+            Console.WriteLine("SELECT OPTION FOR CURRENT OPERAND: " + currentOperandInExpression + " = " + myOperand + "\n\n" + 
                                             "1. Square operand | " + "2. Square root of operand | " + 
-                                            "3. Inverse of operand | " + "4. Negate operand | " + "5. Continue");
+                                            "3. Inverse of operand | " + "4. Negate operand | " + "5. Continue\n");
 
             // Getting user selection:
             int selection = Convert.ToInt32(Console.ReadLine());
@@ -141,7 +147,7 @@ namespace consoleBasedCalculator
                 // i.e. Else:
                 default:
                     {
-                        Console.WriteLine("WRONG ACTION!");
+                        Console.WriteLine("INVALID INPUT!");
                         myOperand = operationWithinOperation(myOperand);
                         break;
                     }
@@ -168,7 +174,6 @@ namespace consoleBasedCalculator
             // Getting second operand from user:
             if (secondOperand == "")
             {
-                Console.WriteLine("CURRENT EXPRESSION: " + currentExpression + "\n");
                 secondOperand = getOperandsFromUser();
             }
             currentOperandInExpression = secondOperand;
@@ -181,7 +186,31 @@ namespace consoleBasedCalculator
             if (isStringValidDouble(firstOperand) == false || isStringValidDouble(secondOperand) == false)
             {
                 // Displaying error message:
-                Console.WriteLine("\n" + "ERROR! INVALID OPERAND, " + operationType + " CANNOT BE PERFORMED:\n" + currentExpression);
+                Console.WriteLine("ERROR! INVALID " + operationType + ":\n\n" + currentExpression);
+
+                // Resetting operands for next expression:
+                firstOperand = "";
+                secondOperand = "";
+                currentOperandInExpression = "";
+                currentExpression = "";
+
+                // Display basic menu with option to display main menu or exit program:
+                displayBasicMenu();
+            }
+            // If you are doing modulo operation and any of the operands is not an integer, then throw an error message:
+            else if (myOperator == "%" && (firstOperand.Contains(".") || secondOperand.Contains(".")))
+            {
+                // Displaying error message:
+                Console.WriteLine("ERROR! INVALID " + operationType + ":\n\n" + currentExpression);
+
+                // Resetting operands for next expression:
+                firstOperand = "";
+                secondOperand = "";
+                currentOperandInExpression = "";
+                currentExpression = "";
+
+                // Display basic menu with option to display main menu or exit program:
+                displayBasicMenu();
             }
             else
             {
@@ -190,20 +219,20 @@ namespace consoleBasedCalculator
                 currentExpression += " = " + myResult;
 
                 // Displaying current expression with result:
-                Console.WriteLine("\n" + operationType + ":\n" + currentExpression);
+                Console.WriteLine(operationType + ":\n\n" + currentExpression);
 
                 // Adding current expression to history list:
                 history.Add(currentExpression);
+
+                // Resetting operands for next expression:
+                firstOperand = "";
+                secondOperand = "";
+                currentOperandInExpression = "";
+                currentExpression = "";
+
+                // Shwoing menu with possible operations to perform with result of current expression:
+                operationWithResult();
             }
-
-            // Resetting operands for next expression:
-            firstOperand = "";
-            secondOperand = "";
-            currentOperandInExpression = "";
-            currentExpression = "";
-
-            // Shwoing menu with possible operations to perform with result of current expression:
-            operationWithResult();
         }
 
         // Function to perform operation with one operand:
@@ -278,18 +307,18 @@ namespace consoleBasedCalculator
                 Console.WriteLine("----------------------------------------\n");
 
                 // Displaying different operations that can be performed with result:
-                Console.WriteLine("1) Addition using current number");
-                Console.WriteLine("2) Subtraction using current number");
-                Console.WriteLine("3) Multiplication using current number");
-                Console.WriteLine("4) Division using current number");
-                Console.WriteLine("5) Modulo using current number");
-                Console.WriteLine("6) Square current number");
-                Console.WriteLine("7) Square root current number");
-                Console.WriteLine("8) Inverse current number");
-                Console.WriteLine("9) Negate current number");
-                Console.WriteLine("10) History");
-                Console.WriteLine("11) Main Menu");
-                Console.WriteLine("0) Exit\n");
+                Console.WriteLine("1)   Addition using current number");
+                Console.WriteLine("2)   Subtraction using current number");
+                Console.WriteLine("3)   Multiplication using current number");
+                Console.WriteLine("4)   Division using current number");
+                Console.WriteLine("5)   Modulo using current number");
+                Console.WriteLine("6)   Square current number");
+                Console.WriteLine("7)   Square root current number");
+                Console.WriteLine("8)   Inverse current number");
+                Console.WriteLine("9)   Negate current number");
+                Console.WriteLine("10)  History");
+                Console.WriteLine("11)  Main Menu");
+                Console.WriteLine("0)   Exit\n");
 
                 // Getting user selection:
                 selection = Convert.ToInt32(Console.ReadLine());
@@ -393,7 +422,7 @@ namespace consoleBasedCalculator
                     // i.e. Else:
                     default:
                         {
-                            Console.WriteLine("WRONG ACTION!");
+                            Console.WriteLine("INVALID INPUT!");
                             break;
                         }
                 }
@@ -418,14 +447,21 @@ namespace consoleBasedCalculator
                 }
             }
 
+            // Display basic menu with option to display main menu or exit program:
+            displayBasicMenu();
+        }
+
+        // Function to display basic menu:
+        public static void displayBasicMenu()
+        {
             // Variable for user selection after addition is done:
             int selection = -1;
 
             // While loop that executes until user selects a valid option:
             while (selection < 1 || selection > 2)
             {
-                // Displaying possible options after square is found:
-                Console.WriteLine("\n\nSELECT OPTION: 1) Main menu | 2) Exit");
+                // Displaying possible options:
+                Console.WriteLine("\n\nSELECT OPTION: 1) Main Menu | 2) Exit");
 
                 // Getting user selection:
                 selection = Convert.ToInt32(Console.ReadLine());
@@ -449,7 +485,7 @@ namespace consoleBasedCalculator
                     // i.e. Else:
                     default:
                         {
-                            Console.WriteLine("WRONG ACTION!");
+                            Console.WriteLine("INVALID INPUT!");
                             break;
                         }
                 }
@@ -463,109 +499,122 @@ namespace consoleBasedCalculator
             Console.WriteLine("-------------------------\n\n");
 
             // Displaying initial menu with different operations:
-            Console.WriteLine("1) Addition");
-            Console.WriteLine("2) Subtraction");
-            Console.WriteLine("3) Multiplication");
-            Console.WriteLine("4) Division");
-            Console.WriteLine("5) Modulo");
-            Console.WriteLine("6) Square");
-            Console.WriteLine("7) Square root");
-            Console.WriteLine("8) Inverse");
-            Console.WriteLine("9) Negate");
-            Console.WriteLine("10) History");
-            Console.WriteLine("0) Exit\n\n");
+            Console.WriteLine("1)   Addition");
+            Console.WriteLine("2)   Subtraction");
+            Console.WriteLine("3)   Multiplication");
+            Console.WriteLine("4)   Division");
+            Console.WriteLine("5)   Modulo");
+            Console.WriteLine("6)   Square");
+            Console.WriteLine("7)   Square root");
+            Console.WriteLine("8)   Inverse");
+            Console.WriteLine("9)   Negate");
+            Console.WriteLine("10)  History");
+            Console.WriteLine("0)   Exit\n\n");
 
             // Getting user input to select an operation:
             Console.WriteLine("SELECT OPTION:");
-            int selection = Convert.ToInt32(Console.ReadLine());
-
-            // Switch statement to perform the operation selected:
-            switch (selection)
+            string selectionString = Console.ReadLine();
+            if (isStringDigitsOnly(selectionString) == false)
             {
-                // Addition:
-                case 1:
-                    {
-                        Console.Clear();
-                        operationWithTwoOperands("Addition", "+");
-                        break;
-                    }
-                // Subtraction:
-                case 2:
-                    {
-                        Console.Clear();
-                        operationWithTwoOperands("Subtraction", "-");
-                        break;
-                    }
-                // Multiplication:
-                case 3:
-                    {
-                        Console.Clear();
-                        operationWithTwoOperands("Multiplication", "*");
-                        break;
-                    }
-                // Division:
-                case 4:
-                    {
-                        Console.Clear();
-                        operationWithTwoOperands("Division", "/");
-                        break;
-                    }
-                // Modulo:
-                case 5:
-                    {
-                        Console.Clear();
-                        operationWithTwoOperands("Modulo", "%");
-                        break;
-                    }
-                // Square of a number:
-                case 6:
-                    {
-                        Console.Clear();
-                        operationWithOneOperand("Square");
-                        break;
-                    }
-                // Square root of a number:
-                case 7:
-                    {
-                        Console.Clear();
-                        operationWithOneOperand("Sqrt");
-                        break;
-                    }
-                // Inverse of a number:
-                case 8:
-                    {
-                        Console.Clear();
-                        operationWithOneOperand("Inverse");
-                        break;
-                    }
-                // Negate a number:
-                case 9:
-                    {
-                        Console.Clear();
-                        operationWithOneOperand("Negate");
-                        break;
-                    }
-                // History:
-                case 10:
-                    {
-                        Console.Clear();
-                        displayHistory();
-                        break;
-                    }
-                // Exit:
-                case 0:
-                    {
-                        Environment.Exit(0);
-                        break;
-                    }
-                // i.e. Else:
-                default:
-                    {
-                        Console.WriteLine("WRONG ACTION!");
-                        displayMainMenu();
-                        break;
-                    }
+                Console.WriteLine("\nINVALID INPUT!");
+                Thread.Sleep(1000); // Delay of 1000 ms
+                Console.Clear();
+                displayMainMenu();
+                
             }
+            else
+            {
+                int selection = Convert.ToInt32(selectionString);
+                // Switch statement to perform the operation selected:
+                switch (selection)
+                {
+                    // Addition:
+                    case 1:
+                        {
+                            Console.Clear();
+                            operationWithTwoOperands("ADDITION", "+");
+                            break;
+                        }
+                    // Subtraction:
+                    case 2:
+                        {
+                            Console.Clear();
+                            operationWithTwoOperands("SUBTRACTION", "-");
+                            break;
+                        }
+                    // Multiplication:
+                    case 3:
+                        {
+                            Console.Clear();
+                            operationWithTwoOperands("MULTIPLICATION", "*");
+                            break;
+                        }
+                    // Division:
+                    case 4:
+                        {
+                            Console.Clear();
+                            operationWithTwoOperands("DIVISION", "/");
+                            break;
+                        }
+                    // Modulo:
+                    case 5:
+                        {
+                            Console.Clear();
+                            operationWithTwoOperands("MODULO", "%");
+                            break;
+                        }
+                    // Square of a number:
+                    case 6:
+                        {
+                            Console.Clear();
+                            operationWithOneOperand("Square");
+                            break;
+                        }
+                    // Square root of a number:
+                    case 7:
+                        {
+                            Console.Clear();
+                            operationWithOneOperand("Sqrt");
+                            break;
+                        }
+                    // Inverse of a number:
+                    case 8:
+                        {
+                            Console.Clear();
+                            operationWithOneOperand("Inverse");
+                            break;
+                        }
+                    // Negate a number:
+                    case 9:
+                        {
+                            Console.Clear();
+                            operationWithOneOperand("Negate");
+                            break;
+                        }
+                    // History:
+                    case 10:
+                        {
+                            Console.Clear();
+                            displayHistory();
+                            break;
+                        }
+                    // Exit:
+                    case 0:
+                        {
+                            Environment.Exit(0);
+                            break;
+                        }
+                    // i.e. Else:
+                    default:
+                        {
+                            Console.WriteLine("\nINVALID INPUT!");
+                            Thread.Sleep(1000); // Delay of 1000 ms
+                            Console.Clear();
+                            displayMainMenu();
+                            break;
+                        }
+                }
+            }    
         }
 
         // Main (i.e. driver) function:
