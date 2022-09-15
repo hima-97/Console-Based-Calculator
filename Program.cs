@@ -1,16 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-// For console applications, the following directives are implicitly included in the application:
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
 using System.Data;
-using System.Globalization;
-using System.Diagnostics;
 
 // The namespace depends on the project name:
 namespace consoleBasedCalculator
@@ -79,7 +68,7 @@ namespace consoleBasedCalculator
                 }
                 else
                 {
-                    Console.WriteLine("CURRENT EXPRESSION:       " + currentExpression + "[second operand]\n\n");
+                    Console.WriteLine("CURRENT EXPRESSION:              " + currentExpression + "[second operand]\n\n\n");
                     Console.WriteLine("ENTER SECOND OPERAND:\n");
                 }
 
@@ -95,9 +84,14 @@ namespace consoleBasedCalculator
             Console.Clear();
 
             // Displaying menu to perform an operation on single operand:
-            Console.WriteLine("SELECT OPTION FOR CURRENT OPERAND: " + currentOperandInExpression + " = " + myOperand + "\n\n" + 
-                                            "1. Square operand | " + "2. Square root of operand | " + 
-                                            "3. Inverse of operand | " + "4. Negate operand | " + "5. Continue\n");
+            Console.WriteLine("SELECT OPTION FOR CURRENT OPERAND: " + currentOperandInExpression + " = " + myOperand + "\n\n\n");
+            Console.WriteLine("1)   Square current operand");
+            Console.WriteLine("2)   Square root current number");
+            Console.WriteLine("3)   Inverse current operand");
+            Console.WriteLine("4)   Negate current operand");
+            Console.WriteLine("5)   Clear current operand");
+            Console.WriteLine("6)   Clear current expression");
+            Console.WriteLine("7)   Continue\n");
 
             // Getting user selection:
             int selection = Convert.ToInt32(Console.ReadLine());
@@ -139,8 +133,32 @@ namespace consoleBasedCalculator
                         myOperand = operationWithinOperation(myOperand);
                         break;
                     }
-                // Continue:
+                // Clear operand:
                 case 5:
+                    {
+                        currentOperandInExpression = "";
+                        myOperand = "";
+                        if (secondOperand == "")
+                        {
+                            firstOperand = "";
+                            currentExpression = "";
+                        }
+                        else
+                            secondOperand = "";
+                        break;
+                    }
+                // Clear expression:
+                case 6:
+                    {
+                        currentOperandInExpression = "";
+                        myOperand = "";
+                        firstOperand = "";
+                        secondOperand = "";
+                        displayMainMenu();
+                        break;
+                    }
+                // Continue:
+                case 7:
                     {
                         break;
                     }
@@ -168,6 +186,12 @@ namespace consoleBasedCalculator
             currentOperandInExpression = firstOperand;
             Console.Clear();
             firstOperand = operationWithinOperation(currentOperandInExpression);
+            // In case clear operand (i.e. CE) was performed:
+            if (firstOperand == "")
+            {
+                firstOperand = getOperandsFromUser();
+                //operationWithTwoOperands(operationType, myOperator);
+            }
             currentExpression = currentOperandInExpression + " " + myOperator + " ";
             Console.Clear();
 
@@ -179,6 +203,12 @@ namespace consoleBasedCalculator
             currentOperandInExpression = secondOperand;
             Console.Clear();
             secondOperand = operationWithinOperation(currentOperandInExpression);
+            // In case clear operand (i.e. CE) was performed:
+            if (secondOperand == "")
+            {
+                secondOperand = getOperandsFromUser();
+                //operationWithTwoOperands(operationType, myOperator);
+            }
             currentExpression += currentOperandInExpression;
             Console.Clear();
 
@@ -300,25 +330,25 @@ namespace consoleBasedCalculator
             int selection = -1;
 
             // While loop that executes until user selects a valid option:
-            while (selection < 0 || selection > 11)
+            while (selection < 1 || selection > 12)
             {
                 // Displaying possible options after operation is done:
-                Console.WriteLine("\n\nSELECT OPTION FOR CURRENT RESULT:");
+                Console.WriteLine("\n\n\nSELECT OPTION FOR CURRENT RESULT:");
                 Console.WriteLine("----------------------------------------\n");
 
                 // Displaying different operations that can be performed with result:
-                Console.WriteLine("1)   Addition using current number");
-                Console.WriteLine("2)   Subtraction using current number");
-                Console.WriteLine("3)   Multiplication using current number");
-                Console.WriteLine("4)   Division using current number");
-                Console.WriteLine("5)   Modulo using current number");
-                Console.WriteLine("6)   Square current number");
-                Console.WriteLine("7)   Square root current number");
-                Console.WriteLine("8)   Inverse current number");
-                Console.WriteLine("9)   Negate current number");
+                Console.WriteLine("1)   Addition using current result");
+                Console.WriteLine("2)   Subtraction using current result");
+                Console.WriteLine("3)   Multiplication using current result");
+                Console.WriteLine("4)   Division using current result");
+                Console.WriteLine("5)   Modulo using current result");
+                Console.WriteLine("6)   Square current result");
+                Console.WriteLine("7)   Square root current result");
+                Console.WriteLine("8)   Inverse current result");
+                Console.WriteLine("9)   Negate current result");
                 Console.WriteLine("10)  History");
                 Console.WriteLine("11)  Main Menu");
-                Console.WriteLine("0)   Exit\n");
+                Console.WriteLine("12)  Exit\n");
 
                 // Getting user selection:
                 selection = Convert.ToInt32(Console.ReadLine());
@@ -413,7 +443,7 @@ namespace consoleBasedCalculator
                             break;
                         }
                     // Exit:
-                    case 0:
+                    case 12:
                         {
                             Console.Clear();
                             Environment.Exit(0);
@@ -461,7 +491,7 @@ namespace consoleBasedCalculator
             while (selection < 1 || selection > 2)
             {
                 // Displaying possible options:
-                Console.WriteLine("\n\nSELECT OPTION: 1) Main Menu | 2) Exit");
+                Console.WriteLine("\n\nSELECT OPTION: 1) Main Menu | 2) Exit\n");
 
                 // Getting user selection:
                 selection = Convert.ToInt32(Console.ReadLine());
@@ -495,6 +525,7 @@ namespace consoleBasedCalculator
         // Function to display operations menu:
         public static void displayMainMenu()
         {
+            Console.Clear();
             Console.WriteLine("CONSOLE-BASED CALCULATOR");
             Console.WriteLine("-------------------------\n\n");
 
@@ -509,10 +540,10 @@ namespace consoleBasedCalculator
             Console.WriteLine("8)   Inverse");
             Console.WriteLine("9)   Negate");
             Console.WriteLine("10)  History");
-            Console.WriteLine("0)   Exit\n\n");
+            Console.WriteLine("11)  Exit\n\n");
 
             // Getting user input to select an operation:
-            Console.WriteLine("SELECT OPTION:");
+            Console.WriteLine("SELECT OPTION:\n");
             string selectionString = Console.ReadLine();
             if (isStringDigitsOnly(selectionString) == false)
             {
@@ -599,7 +630,7 @@ namespace consoleBasedCalculator
                             break;
                         }
                     // Exit:
-                    case 0:
+                    case 11:
                         {
                             Environment.Exit(0);
                             break;
