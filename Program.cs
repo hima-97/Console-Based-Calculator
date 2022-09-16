@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Data;
+using System.Globalization;
 
 // The namespace depends on the project name:
 namespace consoleBasedCalculator
@@ -27,6 +28,7 @@ namespace consoleBasedCalculator
         // Boolean function to check if input string contains only digits:
         public static bool isStringDigitsOnly(string myString)
         {
+            
             foreach (char c in myString)
             {
                 if (c < '0' || c > '9')
@@ -42,9 +44,8 @@ namespace consoleBasedCalculator
         // Boolean function to check if string input is a valid double value:
         public static bool isStringValidDouble(string myString)
         {
-            if (double.TryParse(myString, out double myDouble) && !Double.IsNaN(myDouble) && !Double.IsInfinity(myDouble))
+            if (double.TryParse(myString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double myDouble) && !Double.IsNaN(myDouble) && !Double.IsInfinity(myDouble))
             {
-                // double.TryParse(secondOperand, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var parsedSecondOperand)
                 return true;
             }
 
@@ -84,9 +85,9 @@ namespace consoleBasedCalculator
             Console.Clear();
 
             // Displaying menu to perform an operation on single operand:
-            Console.WriteLine("SELECT OPTION FOR CURRENT OPERAND: " + currentOperandInExpression + " = " + myOperand + "\n\n\n");
+            Console.WriteLine("SELECT OPTION FOR CURRENT OPERAND:              " + currentOperandInExpression + " = " + myOperand + "\n\n\n");
             Console.WriteLine("1)   Square current operand");
-            Console.WriteLine("2)   Square root current number");
+            Console.WriteLine("2)   Square root current operand");
             Console.WriteLine("3)   Inverse current operand");
             Console.WriteLine("4)   Negate current operand");
             Console.WriteLine("5)   Clear current operand");
@@ -179,35 +180,23 @@ namespace consoleBasedCalculator
         public static void operationWithTwoOperands(string operationType, string myOperator)
         {
             // Getting first operand from user:
-            if (firstOperand == "")
+            while (firstOperand == "")
             {
                 firstOperand = getOperandsFromUser();
-            }
-            currentOperandInExpression = firstOperand;
-            Console.Clear();
-            firstOperand = operationWithinOperation(currentOperandInExpression);
-            // In case clear operand (i.e. CE) was performed:
-            if (firstOperand == "")
-            {
-                firstOperand = getOperandsFromUser();
-                //operationWithTwoOperands(operationType, myOperator);
+                currentOperandInExpression = firstOperand;
+                Console.Clear();
+                firstOperand = operationWithinOperation(currentOperandInExpression);
             }
             currentExpression = currentOperandInExpression + " " + myOperator + " ";
             Console.Clear();
 
             // Getting second operand from user:
-            if (secondOperand == "")
+            while (secondOperand == "")
             {
                 secondOperand = getOperandsFromUser();
-            }
-            currentOperandInExpression = secondOperand;
-            Console.Clear();
-            secondOperand = operationWithinOperation(currentOperandInExpression);
-            // In case clear operand (i.e. CE) was performed:
-            if (secondOperand == "")
-            {
-                secondOperand = getOperandsFromUser();
-                //operationWithTwoOperands(operationType, myOperator);
+                currentOperandInExpression = secondOperand;
+                Console.Clear();
+                secondOperand = operationWithinOperation(currentOperandInExpression);
             }
             currentExpression += currentOperandInExpression;
             Console.Clear();
@@ -551,7 +540,7 @@ namespace consoleBasedCalculator
                 Thread.Sleep(1000); // Delay of 1000 ms
                 Console.Clear();
                 displayMainMenu();
-                
+
             }
             else
             {
@@ -645,7 +634,7 @@ namespace consoleBasedCalculator
                             break;
                         }
                 }
-            }    
+            }
         }
 
         // Main (i.e. driver) function:
