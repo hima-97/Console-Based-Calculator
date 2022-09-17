@@ -44,11 +44,11 @@ namespace consoleBasedCalculator
         // Boolean function to check if string input is a valid double value:
         public static bool isStringValidDouble(string myString)
         {
-            if (double.TryParse(myString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double myDouble) && !Double.IsNaN(myDouble) && !Double.IsInfinity(myDouble))
+            if (double.TryParse(myString, out double myDouble) && !Double.IsNaN(myDouble) && !Double.IsInfinity(myDouble) && !myString.Contains(','))
             {
+                // double.TryParse(secondOperand, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var parsedSecondOperand)
                 return true;
             }
-
             return false;
         }
 
@@ -79,100 +79,115 @@ namespace consoleBasedCalculator
             return myOperand;
         }
 
-        // Function to find square, square root, or inverse of operand within an operation:
+        // Function to handle/work with an operand while you are within an expression:
         public static string operationWithinOperation(string myOperand)
         {
             Console.Clear();
 
-            // Displaying menu to perform an operation on single operand:
-            Console.WriteLine("SELECT OPTION FOR CURRENT OPERAND:              " + currentOperandInExpression + " = " + myOperand + "\n\n\n");
-            Console.WriteLine("1)   Square current operand");
-            Console.WriteLine("2)   Square root current operand");
-            Console.WriteLine("3)   Inverse current operand");
-            Console.WriteLine("4)   Negate current operand");
-            Console.WriteLine("5)   Clear current operand");
-            Console.WriteLine("6)   Clear current expression");
-            Console.WriteLine("7)   Continue\n");
-
-            // Getting user selection:
-            int selection = Convert.ToInt32(Console.ReadLine());
-
-            // Switch statement to perform the operation selected on a single operand:
-            switch (selection)
+            // Checking if operand is a valid double:
+            if (isStringValidDouble(myOperand))
             {
-                // Square:
-                case 1:
-                    {
-                        currentOperandInExpression = "(" + currentOperandInExpression + ")^2";
-                        myOperand = Convert.ToString(Math.Pow(Convert.ToDouble(myOperand), 2));
-                        myOperand = operationWithinOperation(myOperand);
-                        break;
-                    }
-                // Square root:
-                case 2:
-                    {
-                        currentOperandInExpression = "Sqrt(" + currentOperandInExpression + ")";
-                        myOperand = Convert.ToString(Math.Sqrt(Convert.ToDouble(myOperand)));
-                        myOperand = operationWithinOperation(myOperand);
-                        break;
-                    }
-                // Inverse:
-                case 3:
-                    {
-                        currentOperandInExpression = "1/(" + currentOperandInExpression + ")";
-                        myOperand = Convert.ToString(1 / (Convert.ToDouble(myOperand)));
-                        myOperand = operationWithinOperation(myOperand);
-                        break;
-                    }
-                // Negate:
-                case 4:
-                    {
-                        currentOperandInExpression = "Negate(" + currentOperandInExpression + ")";
-                        double oppositeNumber = Convert.ToDouble(myOperand);
-                        oppositeNumber = oppositeNumber * (-1);
-                        myOperand = Convert.ToString(oppositeNumber);
-                        myOperand = operationWithinOperation(myOperand);
-                        break;
-                    }
-                // Clear operand:
-                case 5:
-                    {
-                        currentOperandInExpression = "";
-                        myOperand = "";
-                        if (secondOperand == "")
-                        {
-                            firstOperand = "";
-                            currentExpression = "";
-                        }
-                        else
-                            secondOperand = "";
-                        break;
-                    }
-                // Clear expression:
-                case 6:
-                    {
-                        currentOperandInExpression = "";
-                        myOperand = "";
-                        firstOperand = "";
-                        secondOperand = "";
-                        displayMainMenu();
-                        break;
-                    }
-                // Continue:
-                case 7:
-                    {
-                        break;
-                    }
-                // i.e. Else:
-                default:
-                    {
-                        Console.WriteLine("INVALID INPUT!");
-                        myOperand = operationWithinOperation(myOperand);
-                        break;
-                    }
-            }
+                // Displaying menu to perform an operation on single operand:
+                if (firstOperand != "" && secondOperand == "")
+                    Console.WriteLine("SELECT OPTION FOR FIRST OPERAND:              " + currentOperandInExpression + " = " + myOperand + "\n\n\n");
+                else
+                    Console.WriteLine("SELECT OPTION FOR SECOND OPERAND:              " + currentOperandInExpression + " = " + myOperand + "\n\n\n");
 
-            return myOperand;
+                Console.WriteLine("1)   Square operand");
+                Console.WriteLine("2)   Square root operand");
+                Console.WriteLine("3)   Inverse operand");
+                Console.WriteLine("4)   Negate operand");
+                Console.WriteLine("5)   Clear operand");
+                Console.WriteLine("6)   Clear expression");
+                Console.WriteLine("7)   Continue\n");
+
+                // Getting user selection:
+                int selection = Convert.ToInt32(Console.ReadLine());
+
+                // Switch statement to perform the operation selected on a single operand:
+                switch (selection)
+                {
+                    // Square:
+                    case 1:
+                        {
+                            currentOperandInExpression = "(" + currentOperandInExpression + ")^2";
+                            myOperand = Convert.ToString(Math.Pow(Convert.ToDouble(myOperand), 2));
+                            myOperand = operationWithinOperation(myOperand);
+                            break;
+                        }
+                    // Square root:
+                    case 2:
+                        {
+                            currentOperandInExpression = "Sqrt(" + currentOperandInExpression + ")";
+                            myOperand = Convert.ToString(Math.Sqrt(Convert.ToDouble(myOperand)));
+                            myOperand = operationWithinOperation(myOperand);
+                            break;
+                        }
+                    // Inverse:
+                    case 3:
+                        {
+                            currentOperandInExpression = "1/(" + currentOperandInExpression + ")";
+                            myOperand = Convert.ToString(1 / (Convert.ToDouble(myOperand)));
+                            myOperand = operationWithinOperation(myOperand);
+                            break;
+                        }
+                    // Negate:
+                    case 4:
+                        {
+                            currentOperandInExpression = "Negate(" + currentOperandInExpression + ")";
+                            double oppositeNumber = Convert.ToDouble(myOperand);
+                            oppositeNumber = oppositeNumber * (-1);
+                            myOperand = Convert.ToString(oppositeNumber);
+                            myOperand = operationWithinOperation(myOperand);
+                            break;
+                        }
+                    // Clear operand:
+                    case 5:
+                        {
+                            currentOperandInExpression = "";
+                            myOperand = "";
+                            if (secondOperand == "")
+                            {
+                                firstOperand = "";
+                                currentExpression = "";
+                            }
+                            else
+                                secondOperand = "";
+                            break;
+                        }
+                    // Clear expression:
+                    case 6:
+                        {
+                            currentOperandInExpression = "";
+                            myOperand = "";
+                            firstOperand = "";
+                            secondOperand = "";
+                            displayMainMenu();
+                            break;
+                        }
+                    // Continue:
+                    case 7:
+                        {
+                            break;
+                        }
+                    // i.e. Else:
+                    default:
+                        {
+                            Console.WriteLine("INVALID INPUT!");
+                            myOperand = operationWithinOperation(myOperand);
+                            break;
+                        }
+                }
+                return myOperand;
+            }
+            else
+            {
+
+                // Displaying error message:
+                Console.WriteLine("INVALID INPUT!");
+                Thread.Sleep(2000); // Delay of 1000 ms
+                return "";
+            }
         }
 
         // Function to perform operation with two operands:
