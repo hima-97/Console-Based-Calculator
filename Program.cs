@@ -88,11 +88,7 @@ namespace consoleBasedCalculator
             if (isStringValidDouble(myOperand))
             {
                 // Displaying menu to perform an operation on single operand:
-                if (firstOperand != "" && secondOperand == "")
-                    Console.WriteLine("SELECT OPTION FOR FIRST OPERAND:              " + currentOperandInExpression + " = " + myOperand + "\n\n\n");
-                else
-                    Console.WriteLine("SELECT OPTION FOR SECOND OPERAND:              " + currentOperandInExpression + " = " + myOperand + "\n\n\n");
-
+                Console.WriteLine("SELECT OPTION FOR CURRENT OPERAND:              " + currentOperandInExpression + " = " + myOperand + "\n\n\n");
                 Console.WriteLine("1)   Square operand");
                 Console.WriteLine("2)   Square root operand");
                 Console.WriteLine("3)   Inverse operand");
