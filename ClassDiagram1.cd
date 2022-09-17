@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="consoleBasedCalculator.Program">
-    <Position X="4" Y="1.75" Width="7.25" />
+    <Position X="7.75" Y="2" Width="6" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAUABABABAAAAAAAAAAAAEAgAgACADCAABhI=</HashCode>
       <FileName>Program.cs</FileName>

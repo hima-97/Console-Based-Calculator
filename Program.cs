@@ -202,6 +202,7 @@ namespace consoleBasedCalculator
                 Console.Clear();
                 firstOperand = operationWithinOperation(currentOperandInExpression);
             }
+            currentOperandInExpression = firstOperand;
             currentExpression = currentOperandInExpression + " " + myOperator + " ";
             Console.Clear();
 
@@ -213,6 +214,7 @@ namespace consoleBasedCalculator
                 Console.Clear();
                 secondOperand = operationWithinOperation(currentOperandInExpression);
             }
+            currentOperandInExpression = secondOperand;
             currentExpression += currentOperandInExpression;
             Console.Clear();
 
@@ -480,7 +482,7 @@ namespace consoleBasedCalculator
                     Console.WriteLine(history[i] + "\n");
                 }
             }
-
+            
             // Display basic menu with option to display main menu or exit program:
             displayBasicMenu();
         }
