@@ -28,7 +28,7 @@ namespace consoleBasedCalculator
         // Boolean function to check if input string contains only digits:
         public static bool isStringDigitsOnly(string myString)
         {
-            
+
             foreach (char c in myString)
             {
                 if (c < '0' || c > '9')
@@ -478,7 +478,7 @@ namespace consoleBasedCalculator
                     Console.WriteLine(history[i] + "\n");
                 }
             }
-            
+
             // Display basic menu with option to display main menu or exit program:
             displayBasicMenu();
         }
