@@ -198,7 +198,6 @@ namespace consoleBasedCalculator
                 Console.Clear();
                 firstOperand = operationWithinOperation(currentOperandInExpression);
             }
-            currentOperandInExpression = firstOperand;
             currentExpression = currentOperandInExpression + " " + myOperator + " ";
             Console.Clear();
 
@@ -210,7 +209,6 @@ namespace consoleBasedCalculator
                 Console.Clear();
                 secondOperand = operationWithinOperation(currentOperandInExpression);
             }
-            currentOperandInExpression = secondOperand;
             currentExpression += currentOperandInExpression;
             Console.Clear();
 
@@ -272,13 +270,13 @@ namespace consoleBasedCalculator
         public static void operationWithOneOperand(string operationType)
         {
             // Getting operand from user:
-            if (firstOperand == "")
+            while (firstOperand == "")
             {
-
                 firstOperand = getOperandsFromUser();
+                currentOperandInExpression = firstOperand;
+                Console.Clear();
+                firstOperand = operationWithinOperation(currentOperandInExpression);
             }
-            currentOperandInExpression = firstOperand;
-            firstOperand = operationWithinOperation(currentOperandInExpression);
 
             // Calculating and displaying expression with its result:
             Console.Clear();
@@ -363,6 +361,7 @@ namespace consoleBasedCalculator
                         {
                             Console.Clear();
                             firstOperand = myResult;
+                            currentOperandInExpression = myResult;
                             operationWithTwoOperands("ADDITION", "+");
                             break;
                         }
@@ -371,6 +370,7 @@ namespace consoleBasedCalculator
                         {
                             Console.Clear();
                             firstOperand = myResult;
+                            currentOperandInExpression = myResult;
                             operationWithTwoOperands("SUBTRACTION", "-");
                             break;
                         }
@@ -379,6 +379,7 @@ namespace consoleBasedCalculator
                         {
                             Console.Clear();
                             firstOperand = myResult;
+                            currentOperandInExpression = myResult;
                             operationWithTwoOperands("MULTIPLICATION", "*");
                             break;
                         }
@@ -387,6 +388,7 @@ namespace consoleBasedCalculator
                         {
                             Console.Clear();
                             firstOperand = myResult;
+                            currentOperandInExpression = myResult;
                             operationWithTwoOperands("DIVISION", "/");
                             break;
                         }
@@ -395,6 +397,7 @@ namespace consoleBasedCalculator
                         {
                             Console.Clear();
                             firstOperand = myResult;
+                            currentOperandInExpression = myResult;
                             operationWithTwoOperands("MODULO", "%");
                             break;
                         }
@@ -403,6 +406,7 @@ namespace consoleBasedCalculator
                         {
                             Console.Clear();
                             firstOperand = myResult;
+                            currentOperandInExpression = myResult;
                             operationWithOneOperand("Square");
                             break;
                         }
@@ -411,6 +415,7 @@ namespace consoleBasedCalculator
                         {
                             Console.Clear();
                             firstOperand = myResult;
+                            currentOperandInExpression = myResult;
                             operationWithOneOperand("Sqrt");
                             break;
                         }
@@ -419,6 +424,7 @@ namespace consoleBasedCalculator
                         {
                             Console.Clear();
                             firstOperand = myResult;
+                            currentOperandInExpression = myResult;
                             operationWithOneOperand("Inverse");
                             break;
                         }
@@ -427,6 +433,7 @@ namespace consoleBasedCalculator
                         {
                             Console.Clear();
                             firstOperand = myResult;
+                            currentOperandInExpression = myResult;
                             operationWithOneOperand("Negate");
                             break;
                         }
