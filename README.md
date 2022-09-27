@@ -42,4 +42,4 @@ Moreover, the user can also perform the following, using the result of the very 
 You can run and test the full project following these steps:
 
 - Clone the repository to your local machine
-- Follow the path `Calculator/bin/Debug/net6.0` to locate and play the `Console-Based Calculator.exe` file
+- Follow the path `Console-Based Calculator/bin/Debug/net6.0` to locate and play the `Console-Based Calculator.exe` file
