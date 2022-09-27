@@ -27,15 +27,15 @@ Additionally, the user can also perform the following operations on a single ope
 -	Clear expression (i.e. C button)
 
 Moreover, the user can also perform the following, using the result of the very last operation performed:
-•	Addition operation using the result of the last operation
-•	Subtraction operation using the result of the last operation
-•	Multiplication operation using the result of the last operation
-•	Division operation using the result of the last operation
-•	Modulo operation using the result of the last operation
-•	Find the square of the result of the last operation
-•	Find the square root of the result of the last operation
-•	Find the inverse of the result of the last operation
-•	Negate the result of the last operation
+-	Addition operation using the result of the last operation
+-	Subtraction operation using the result of the last operation
+-	Multiplication operation using the result of the last operation
+-	Division operation using the result of the last operation
+-	Modulo operation using the result of the last operation
+-	Find the square of the result of the last operation
+-	Find the square root of the result of the last operation
+-	Find the inverse of the result of the last operation
+-	Negate the result of the last operation
 
 # Running and Testing the Project
 
