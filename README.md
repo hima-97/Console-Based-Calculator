@@ -37,6 +37,13 @@ Moreover, the user can also perform the following, using the result of the very 
 -	Find the inverse of the result of the last operation
 -	Negate the result of the last operation
 
+# Tools and Concepts
+- Languages: C#
+- Console application
+- Visual Studio
+- String manipulation
+- Object-Oriented Programming (OOP)
+
 # Running and Testing the Project
 
 You can run and test the full project following these steps:
